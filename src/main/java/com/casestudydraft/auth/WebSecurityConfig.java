@@ -31,21 +31,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers( "/register", "/home", "/images/**", "/styles/**" , "/scripts/**", "/api/**").permitAll()
-//                .anyRequest().authenticated().and()
-//                .exceptionHandling().accessDeniedPage("/accessDenied.jsp")
-//                .and()
-//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .failureHandler(authenticationFailureHandler())
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll();
+        http
+                .authorizeRequests()
+                .antMatchers( "/register", "/home", "/images/**", "/styles/**" , "/scripts/**", "/api/**").permitAll()
+                .antMatchers("/measurement/**", "/nutrient/**", "/ingredient/**").hasRole("ADMIN")
+                .anyRequest().authenticated().and()
+                .exceptionHandling().accessDeniedPage("/accessDenied.jsp")
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                //.failureHandler(authenticationFailureHandler())
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
 
 
     }

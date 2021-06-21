@@ -36,7 +36,5 @@ public class CustomAuthenticationFailureHandler
 
         response.getOutputStream()
                 .println(objectMapper.writeValueAsString(data));
-
-        response.sendRedirect("/");
     }
 }

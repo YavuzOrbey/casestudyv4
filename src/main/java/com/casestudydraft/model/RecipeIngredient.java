@@ -1,5 +1,7 @@
 package com.casestudydraft.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
@@ -24,6 +26,7 @@ public class RecipeIngredient extends BaseModel{
 
     @ManyToOne
     @JoinColumn(name="fk_quantityMeasurement")
+    @JsonIgnore
     private Measurement measurement;
 
     public RecipeIngredient() {

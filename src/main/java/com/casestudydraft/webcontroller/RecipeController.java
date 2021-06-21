@@ -1,12 +1,11 @@
 package com.casestudydraft.webcontroller;
 
-import com.casestudydraft.model.Ingredient;
-import com.casestudydraft.model.Measurement;
-import com.casestudydraft.model.Nutrient;
-import com.casestudydraft.model.Recipe;
+import com.casestudydraft.model.*;
 import com.casestudydraft.service.*;
+import com.casestudydraft.tools.KeyValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @RequestMapping("/recipe")
@@ -113,7 +115,64 @@ public class RecipeController {
 //        mav = new ModelAndView("redirect:");
         return mav;
     }
+    @RequestMapping(value="/{id}", method= RequestMethod.GET)
+    public ModelAndView viewRecipe(HttpServletRequest request, @PathVariable Integer id) {
+        ModelAndView mav = null;
+        Recipe recipe = recipeService.get(id);
+     /*   Measurement measurement = measurementService.get(1L);
+        System.out.println(measurement);
+        System.out.println(measurement.getRecipeIngredients());
+        System.out.println("------------------------------");
+        System.out.println(measurement.getIngredients());
+        System.out.println("------------------------------");
+        System.out.println(measurement.getNutrients());*/
+        mav = new ModelAndView("recipe/view");
+        Map<String, AtomicInteger> recipeInfo = new HashMap<>();
+        //I didn't realize that data structure I made a while ago would finally come in handy!
+        Map<String, KeyValuePair<AtomicInteger, String>> recipeInfo2 = new HashMap<>();
+        // calculate recipe nutrients based on individual ingredient nutrients
+        //have to be really careful here this can get confusing real fast
 
+        AtomicInteger calories = new AtomicInteger();
+        AtomicInteger servingSize = new AtomicInteger();
+         recipe.getRecipeIngredients().forEach(recipeIngredient -> {   //get the recipe_ingredients used in the recipe
+             int amountOfIngredientUsed = recipeIngredient.getQuantity();
+             System.out.println(amountOfIngredientUsed);
+             Measurement measurementOfIngredientUsed = recipeIngredient.getMeasurement(); // Remember we're CHOOSING the amount of ingredient used
+             recipeIngredient.getIngredient().getCalories(); // this is the amount of calories in the ingredient given the normal serving and measurement (i.e.
+             // 440 calories in 120 g of bread flour
+
+             //if we use 1000 g of bread flour, which is 1000/120 = 8.33333 times as much as a normal serving, we should expect
+             // 440*8.333333 =3666.66652 calories from the bread flour in the recipe
+
+
+             //first convert amountOfIngredientUsed to the ingredient's measurement
+
+             //FOR SIMPLICITY I NEED TO JUST KEEP EVERYTHING IN GRAMS FOR NOW
+
+             //LATER ON I'll ADD WEIGHT TO VOLUME and vice versa conversions
+             float ratio =  amountOfIngredientUsed/(float) recipeIngredient.getIngredient().getServingSize();
+             System.out.println(ratio);
+             servingSize.addAndGet(amountOfIngredientUsed);
+             calories.addAndGet((int) ( recipeIngredient.getIngredient().getCalories() * ratio));
+
+             AtomicInteger sum = new AtomicInteger();
+             recipeIngredient.getIngredient().getIngredientNutrients().forEach(ingredientNutrient -> { //get the current ingredient and get nutrients inside of it
+                 /*System.out.println(ingredientNutrient.getIngredient().getName() + " has " + ingredientNutrient.getAmount() + " " +
+                                 ingredientNutrient.getNutrient().getMeasurement().getName() + " of " + ingredientNutrient.getNutrient().getName());*/
+                 sum.addAndGet((int) (ingredientNutrient.getAmount()* ratio));
+                 recipeInfo.put(ingredientNutrient.getNutrient().getName(), sum);
+                 recipeInfo2.put(ingredientNutrient.getNutrient().getName(),
+                         new KeyValuePair<AtomicInteger, String>(sum,ingredientNutrient.getNutrient().getMeasurement().getName()));
+             });
+         });
+        System.out.println(recipeInfo2);
+        mav.addObject("recipe", recipe);
+        mav.addObject("recipeInfo", recipeInfo2);
+        mav.addObject("servingSize", servingSize);
+        mav.addObject("calories", calories);
+        return mav;
+    }
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
     public String deleteRecipe(@PathVariable int id){
         recipeService.delete(recipeService.get(id));

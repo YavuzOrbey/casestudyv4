@@ -122,6 +122,7 @@
             console.log(ingredient);
             //ensure validation at this point
             let json = JSON.stringify(ingredient);
+            console.log(json)
             axios.post("/api/ingredient", json,  {
             headers: {'Content-Type': 'application/json', }
             }).then(response=>{

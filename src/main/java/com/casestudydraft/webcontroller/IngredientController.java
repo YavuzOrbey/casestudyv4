@@ -10,6 +10,9 @@ import com.casestudydraft.service.MeasurementService;
 import com.casestudydraft.service.NutrientService;
 import com.casestudydraft.tools.FormHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -185,7 +188,16 @@ public class IngredientController {
         return mav;
     }
 
+    @GetMapping("/ingredientsSorted")
+    public ResponseEntity<List<Ingredient>> getAllIngredients(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Ingredient> list = ingredientService.getAllIngredients(pageNo, pageSize, sortBy);
 
+        return new ResponseEntity<List<Ingredient>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
     @RequestMapping(value="/edit/{id}", method= RequestMethod.GET)
     public ModelAndView editIngredient(HttpServletRequest request, @PathVariable Long id,
                                        @ModelAttribute("ingredient") Ingredient ingredient,

@@ -31,6 +31,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 //                    + request.getRequestURI());
         }
         System.out.println("In the handle method");
-        response.sendRedirect(request.getContextPath() + "/accessDenied");
+        response.sendRedirect("/accessDenied");
     }
 }

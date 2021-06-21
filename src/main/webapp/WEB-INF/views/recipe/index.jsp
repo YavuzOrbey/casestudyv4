@@ -17,7 +17,7 @@
             <tbody>
             <c:forEach items="${recipes}" var="recipe">
                 <tr>
-                    <td>${recipe.name}</td>
+                    <td><a href="${recipe.id}">${recipe.name}</td>
                     <td><a href="edit/${recipe.id}"><button ><i class="fas fa-edit text-primary"></i></button></a></td>
                      <td><a href="delete/${recipe.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
                 </tr>

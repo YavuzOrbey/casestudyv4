@@ -1,6 +1,10 @@
 package com.casestudydraft.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +17,7 @@ public class Recipe extends BaseModel{
     private Integer id;
 
     @Column(name="name")
+    @NotEmpty(message="Name is required")
     private String name;
 
     @Column(name="cuisine")
@@ -20,15 +25,20 @@ public class Recipe extends BaseModel{
 
     @Column
     @ManyToMany(mappedBy = "recipe")
+    @JsonIgnore
     Set<Meal> meal;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = {
+            CascadeType.ALL
+    }) //use the mapped by to avoid making a join table with one to many
+    @Size(min=1, message = "Recipe must have at least one step")
     List<Step> recipeSteps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = {
             CascadeType.ALL
     })
-    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+    @Size(min=1, message = "Recipe must have at least one ingredient")
+    private List<RecipeIngredient> recipeIngredients;
 
     @ManyToMany(mappedBy = "recipes")
     Set<User> users;
@@ -75,14 +85,6 @@ public class Recipe extends BaseModel{
         this.name = name;
     }
 
-    public Set<Meal> getMealEntity() {
-        return meal;
-    }
-
-    public void setMealEntity(Set<Meal> meal) {
-        this.meal = meal;
-    }
-
     public String getCuisine() {
         return cuisine;
     }
@@ -97,5 +99,14 @@ public class Recipe extends BaseModel{
 
     public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cuisine='" + cuisine + '\'' +
+                " }";
     }
 }

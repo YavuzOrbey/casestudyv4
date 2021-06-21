@@ -64,7 +64,9 @@ display:none;
     list-style:none;
     background: white
 }
-
+.ingredient-amount{
+    width: 60px;
+}
 #ingredients{
 margin-top: 10px;
 }
@@ -79,26 +81,32 @@ margin-top: 10px;
   border-top-right-radius: 4px;
   background: rgba(223, 225, 229, 0);
 }
+
+.error{
+color: red;
+}
 </style>
 <%@include file="../inc/nav.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<form method="POST" class='container' id="form">
+<form method="POST" class='container shadow-lg p-3 mb-5 bg-body rounded' id="form" >
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <div class="mb-3">
         <label for="name" class='form-label'>Recipe Name</label>
         <input id="name" type="text" class='form-control' placeholder="Recipe Name" name="name"/>
-        <!-- figure out how to do some validation errors without form:error -->
+        <!-- figure out how to do some validation errors without form:error EDIT:6/20 got it!-->
+        <span id="name-error" class='error'></span>
     </div>
     <div class="mb-3">
         <label for="cuisine"  class='form-label'>Cuisine</label>
         <input id="cuisine" class='form-control' name="cuisine" type="text" placeholder="Cuisine" />
     </div>
 
-              <a onclick="showAddIngredient()" class="dropbtn d-block">Add Ingredient</a>
+              <a onclick="showElement('showAddIngredient')" class="dropbtn d-block">Add Ingredient</a>
 
     <h4>Ingredients</h4>
+    <span id="ingredient-error" class='error'></span>
     <div id="showAddIngredient" class="dropdown-content">
         <input type="text" placeholder="Search.." id="ingredientInput" class='input' onkeyup="showIngredients()">
         <ul id='ingredient-results' class='results'>
@@ -108,12 +116,18 @@ margin-top: 10px;
 
     </ul>
      <h4>Steps</h4>
-    <a onclick="showAddStep()"  class="dropbtn d-block">Add New Step</a>
-        <div id="showAddStep" class="dropdown-content">
-            <input type="text" placeholder="Step Instructions" id="stepInput">
-            <a onclick="addStep()" class="dropbtn block">Add Ingredient</a>
+     <span id="step-error" class='error'></span>
+    <a onclick="showElement('showAddStep')"  class="dropbtn d-block">Add New Step</a>
+        <div id="showAddStep" class="dropdown-content row">
+            <div class="form-floating" >
+              <textarea class="form-control" placeholder="Step Instruction" id="stepInput" ></textarea>
+              <label for="floatingTextarea">Step Instruction</label>
+            </div>
+            <div >
+                <a onclick="createNewStep()" class="dropbtn"><i class="fas fa-plus-square"></i></a>
+            </div>
         </div>
-    <div id="steps"></div>
+    <ol id="steps"></ol>
 
     <%--<div class='new-step' >
         <div class="mb-3">
@@ -152,23 +166,14 @@ margin-top: 10px;
             </div>
         </div>
     </div>--%>
-let form = document.getElementById("form");
+
 let measurements = [];
 // at the startup of the jsp page parse the measurements recieved from the controller into a javascript object
 <c:forEach items="${measurements}" var="measurement">
     measurements.push({id: ${measurement.id}, name: '${measurement.name}' });
 </c:forEach>
 console.log(measurements);
-let token = document.querySelector('input[name="_csrf"]').value;
-axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
-form.addEventListener("submit", function(event){
-    event.preventDefault();
-    //go through each input in id nutrients and see populate object with if ex: nutrients { 3: 10, 4: 10 } where key is id of nutrient and value is amount
-    const recipe = {};
-    recipe.name = document.querySelector('input[name="name"]').value
-    recipe.cuisine =  document.querySelector('input[name="cuisine"]').value
-    recipe.ingredients = [];
-    let ingredientInputs = document.getElementsByName("ingredients");
+    <%--
     for(let i=0; i<nutrientInputs.length; i++){
         ingredient.nutrients.push({id: parseInt(nutrientInputs[i].dataset.nutrientId,10), amount: parseInt(nutrientInputs[i].value, 10)});
     }
@@ -178,20 +183,8 @@ form.addEventListener("submit", function(event){
     axios.post("/api/ingredient", json,  {
     headers: {'Content-Type': 'application/json', }
     }).then(response=>{
-            console.log("got response back"); });
-    });
+            console.log("got response back"); });--%>
 </script>
 <script src="/scripts/ingredientInput.js"></script>
-<script>
-let step = 1;
-function createNewStep(){
-    let div = document.createElement("DIV");
 
-    div.innerHTML =
-    `<label>${step}.</label>
-    <input class='form-control' type="text" data-step-id="${step}" name="steps" placeholder="Step ${step}"/>`;
-
-    document.getElementById("steps").appendChild(div) ;
-}
-</script>
 <%@include file="../inc/foot.jsp" %>

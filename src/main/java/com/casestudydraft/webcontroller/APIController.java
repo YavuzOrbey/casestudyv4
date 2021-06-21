@@ -1,12 +1,10 @@
 package com.casestudydraft.webcontroller;
 
-import com.casestudydraft.model.Ingredient;
-import com.casestudydraft.model.IngredientNutrient;
-import com.casestudydraft.model.Measurement;
-import com.casestudydraft.model.Nutrient;
+import com.casestudydraft.model.*;
 import com.casestudydraft.service.IngredientService;
 import com.casestudydraft.service.MeasurementService;
 import com.casestudydraft.service.NutrientService;
+import com.casestudydraft.service.RecipeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,8 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -31,6 +30,8 @@ public class APIController {
     @Autowired
     IngredientService ingredientService;
 
+    @Autowired
+    RecipeService recipeService;
     @ModelAttribute("measurements")
     public ArrayList<Measurement> measurements(){
 
@@ -95,6 +96,7 @@ public class APIController {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonObject = mapper.readTree(string);
         Ingredient ingredient = mapper.readValue(string, Ingredient.class); // this will try to parse what it can into a Ingredient pojo minus the stuff I explitcitly told it not to
+        System.out.println(jsonObject);
         JsonNode measurementJson = jsonObject.path("measurement");
         Measurement measurement = measurementService.get(Long.parseLong(measurementJson.toString()));
         System.out.println(measurement);
@@ -124,5 +126,52 @@ public class APIController {
     @RequestMapping(value="/ingredient/{id}")
     public Ingredient findIngredient(@PathVariable Long id) {
         return ingredientService.get(id);
+    }
+
+
+    @RequestMapping(value="/recipe", method=RequestMethod.POST)
+    public  @ResponseBody
+    Map<String, String> storeRecipe(@RequestBody String string) throws JsonProcessingException { // Recipe recipe
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonObject = mapper.readTree(string);
+        Recipe recipe  = mapper.readValue(string, Recipe.class); // this will try to parse what it can into a Recipe POJO
+        JsonNode recipeIngredientsJson = jsonObject.path("recipeIngredients");
+        List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+
+        recipeIngredientsJson.forEach(recipeIngredientObj->{
+            Ingredient ingredient = ingredientService.get(Long.parseLong(recipeIngredientObj.path("id").toString()));
+            int quantity = Integer.parseInt(recipeIngredientObj.path("amount").toString());
+            Measurement measurement = measurementService.get(Long.parseLong(recipeIngredientObj.path("measurement").toString()));
+            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            recipeIngredient.setIngredient(ingredient);
+            recipeIngredient.setQuantity(quantity);
+            recipeIngredient.setMeasurement(measurement);
+            recipeIngredient.setRecipe(recipe);
+            recipeIngredients.add(recipeIngredient);
+        });
+
+        JsonNode recipeStepsJson = jsonObject.path("recipeSteps");
+        List<Step> recipeSteps = new ArrayList<>();
+        recipeStepsJson.forEach(recipeStepObj->{
+            Step step = new Step(recipeStepObj.path("text").toString(), Integer.parseInt(recipeStepObj.path("stepOrder").toString()));
+            step.setRecipe(recipe);
+            recipeSteps.add(step);
+        });
+        System.out.println(recipeIngredients);
+        recipe.setRecipeIngredients(recipeIngredients);
+        recipe.setRecipeSteps(recipeSteps);
+        Map<String, String> errors = new HashMap<>();
+        //those validation errors actually won't get caught until this point
+        try{
+            recipeService.save(recipe);
+        }
+        catch(ConstraintViolationException e){
+
+            Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+            violations.forEach(violation->{
+                errors.put(violation.getPropertyPath().toString(), violation.getMessage());
+            });
+        }
+        return errors;
     }
 }

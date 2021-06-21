@@ -12,8 +12,8 @@ import java.util.List;
 public class IngredientNutrientService{
     @Autowired
     IngredientNutrientRepository ingredientNutrientRepository;
-    public IngredientNutrient findById(int id){
-        return ingredientNutrientRepository.getById(id);
+    public IngredientNutrient findById(Integer id){
+        return ingredientNutrientRepository.getById( id);
     }
 
     public List<IngredientNutrient> findAll() {

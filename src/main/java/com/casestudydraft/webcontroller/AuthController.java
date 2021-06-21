@@ -28,6 +28,10 @@ public class AuthController {
     @Autowired
     private PantryService pantryService;
 
+    @GetMapping("/accessDenied")
+    public String accessDenied(){
+        return "misc/accessDenied";
+    }
     @GetMapping("/register")
     public String registration(@ModelAttribute("userForm") User user) {
         return "auth/register";
