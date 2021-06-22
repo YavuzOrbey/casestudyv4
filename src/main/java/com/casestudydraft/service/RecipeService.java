@@ -2,6 +2,7 @@ package com.casestudydraft.service;
 
 import com.casestudydraft.model.Nutrient;
 import com.casestudydraft.model.Recipe;
+import com.casestudydraft.model.User;
 import com.casestudydraft.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,9 @@ public class RecipeService {
     }
     public void delete(Recipe recipe){
         recipeRepository.delete(recipe);
+    }
+
+    public List<Recipe> findByPublishedAndUser(boolean published, long userId){
+        return recipeRepository.findByPublishedAndUsersId(published, userId);
     }
 }

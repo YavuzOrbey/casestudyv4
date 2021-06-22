@@ -103,7 +103,7 @@ color: red;
         <input id="cuisine" class='form-control' name="cuisine" type="text" placeholder="Cuisine" />
     </div>
 
-              <a onclick="showElement('showAddIngredient')" class="dropbtn d-block">Add Ingredient</a>
+              <a onclick="showElement('showAddIngredient')" class="dropbtn d-block animate__animated animate__pulse animate__infinite">Add Ingredient</a>
 
     <h4>Ingredients</h4>
     <span id="ingredient-error" class='error'></span>
@@ -117,7 +117,7 @@ color: red;
     </ul>
      <h4>Steps</h4>
      <span id="step-error" class='error'></span>
-    <a onclick="showElement('showAddStep')"  class="dropbtn d-block">Add New Step</a>
+    <a onclick="showElement('showAddStep')"  class="dropbtn d-block animate__animated animate__pulse animate__infinite">Add New Step</a>
         <div id="showAddStep" class="dropdown-content row">
             <div class="form-floating" >
               <textarea class="form-control" placeholder="Step Instruction" id="stepInput" ></textarea>

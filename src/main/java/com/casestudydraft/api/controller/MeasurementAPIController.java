@@ -1,8 +1,29 @@
 package com.casestudydraft.api.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
+import com.casestudydraft.model.Measurement;
+import com.casestudydraft.service.MeasurementService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class MeasurementAPIController {
+    @Autowired
+    MeasurementService measurementService;
+
+    @RequestMapping(value="/measurements")
+    public List<Measurement> viewAllMeasurements(@ModelAttribute("measurements") List<Measurement> measurements) {
+        return measurements;
+    }
+
+    @RequestMapping(value="/measurement/{id}")
+    public Measurement findMeasurement(@PathVariable Long id) {
+        return measurementService.get(id);
+    }
+    @RequestMapping(value="/measurement")
+    public Measurement findMatchingMeasurements(@RequestParam String q) {
+        return measurementService.findByNameIgnoreCaseContaining(q);
+    }
 }

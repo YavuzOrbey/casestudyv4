@@ -33,9 +33,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers( "/register", "/home", "/images/**", "/styles/**" , "/scripts/**", "/api/**").permitAll()
-                .antMatchers("/measurement/**", "/nutrient/**", "/ingredient/**").hasRole("ADMIN")
-                .anyRequest().authenticated().and()
+                .antMatchers( "/register", "/home", "/images/**", "/styles/**" , "/scripts/**", "/api/**", "/").permitAll()
+                .antMatchers("/measurement/**", "/nutrient/**", "/ingredient", "/ingredient/**", "/user/**").hasAuthority("admin")
+                .anyRequest().authenticated()
+                .and()
                 .exceptionHandling().accessDeniedPage("/accessDenied.jsp")
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
@@ -47,8 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-
-
+/*    http
+        .csrf()
+                .disable();*/
     }
 
     @Bean

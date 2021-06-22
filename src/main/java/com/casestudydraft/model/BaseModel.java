@@ -1,5 +1,10 @@
 package com.casestudydraft.model;
 
+/*
+
+
+Base Model that every POJO extends. I wanted to get created_on and updated_on in each entity so this was the best way
+ */
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;

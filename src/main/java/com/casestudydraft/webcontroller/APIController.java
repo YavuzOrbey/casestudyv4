@@ -16,9 +16,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 
-@RestController
+/*@RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/api")*/
 public class APIController {
     @Autowired
     MeasurementService measurementService;

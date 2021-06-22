@@ -17,7 +17,7 @@
                 <div class="mb-3">
                     <label class="form-label">Password</label>
                     <input name="password" type="password" class="form-control" placeholder="Password"/>
-                    <span>${error}</span>
+                    <span class='error'>${error}</span>
                 </div>
                 <div class='row justify-content-between mb-3'>
                     <div class="form-check col-md-6">

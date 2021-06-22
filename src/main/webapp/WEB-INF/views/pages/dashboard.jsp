@@ -20,7 +20,7 @@
         }
         .calendar-header{
             height: 50px;
-            background: #D83E3E;
+            background: #490A64;
             text-align: center;
             color: white;
             border-top-left-radius: 10px;
@@ -45,8 +45,6 @@
             <form id="logoutForm" method="POST" action="${contextPath}/logout">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
-
-            <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
         </c:if>
     <div class="container">
         <div class="calendar-header">

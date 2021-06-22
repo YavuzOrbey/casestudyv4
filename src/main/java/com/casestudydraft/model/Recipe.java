@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,17 @@ public class Recipe extends BaseModel{
 
     @ManyToMany(mappedBy = "recipes")
     Set<User> users;
+
+    @NotNull
+    boolean published = false;
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
 
     public Recipe() {
         super();

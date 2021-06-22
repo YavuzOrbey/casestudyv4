@@ -34,6 +34,9 @@ public class RecipeController {
 
     @Autowired
     RecipeService recipeService;
+
+    @Autowired
+    UserService userService;
     @ModelAttribute("ingredient")
     public Ingredient setUpIngredient(){
         Ingredient ingredient = new Ingredient();
@@ -64,6 +67,12 @@ public class RecipeController {
         List<Recipe> recipes = recipeService.findAll();
         return (ArrayList<Recipe>) recipes;
     }
+    @ModelAttribute("myrecipes")
+    public ArrayList<Recipe> myRecipes(){
+        List<Recipe> recipes = recipeService.findByPublishedAndUser(false, userService.findByUsername("yavuz1").getId());
+        return (ArrayList<Recipe>) recipes;
+    }
+
     @RequestMapping(value="", method= RequestMethod.GET)
     public String redirectToMain(){
         return "redirect:recipe/";
@@ -75,6 +84,12 @@ public class RecipeController {
         return mav;
     }
 
+    @RequestMapping("/myrecipes")
+    public ModelAndView viewMyRecipes(HttpServletRequest request, @ModelAttribute("myrecipes") ArrayList<Recipe> recipes) {
+        ModelAndView mav = null;
+        mav = new ModelAndView("recipe/index");
+        return mav;
+    }
     @RequestMapping(value="/create", method= RequestMethod.GET)
     public ModelAndView createRecipe(@ModelAttribute("measurements") ArrayList<Measurement> measurements,
                                      @ModelAttribute("ingredients") ArrayList<Ingredient> ingredients,

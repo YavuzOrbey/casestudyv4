@@ -9,10 +9,20 @@ body {
   overflow-x: hidden;
 }
 nav {
-  height: 50px;
+  height: 40px;
   display: flex;
   justify-content: flex-end;
   font-family: "Merriweather", serif;
+  background: linear-gradient(to right, #5E0030, #8249f7);
+  box-sizing: content-box;
+  border-bottom: 10px solid #e2e2e2;
+}
+
+#secondary-nav{
+background: #e2e2e2;
+}
+h6 + ul li {
+    margin-left: 10px;
 }
 #form {
   width: 400px;
@@ -23,6 +33,10 @@ nav {
   text-decoration: none;
 }
 
-.form-error{
+.error{
 color: red
+}
+
+#main-content{
+background: #eee;
 }
