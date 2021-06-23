@@ -8,3 +8,4 @@
 <h1>Spring Boot - Upload Status</h1>
 <p>${message}</p>
 <%@include file="../inc/foot.jsp" %>
+

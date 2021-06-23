@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
+@CrossOrigin
+@RequestMapping("api")
 public class NutrientAPIController {
     @Autowired
     NutrientService nutrientService;

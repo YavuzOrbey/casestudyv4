@@ -49,4 +49,12 @@ public class Pantry extends BaseModel{
     public void setPantryIngredients(List<PantryIngredient> pantryIngredients) {
         this.pantryIngredients = pantryIngredients;
     }
+
+    @Override
+    public String toString() {
+        return "Pantry{" +
+                "id=" + id +
+                ", user=" + user +
+                '}';
+    }
 }

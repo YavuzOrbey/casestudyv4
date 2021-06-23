@@ -1,33 +1,24 @@
 <% String title = "Ingredients"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
   <div class="container  ">
+        <h1>Admin View</h1>
         <a href="create"><button id="addEntityBtn">Add New Ingredient</button></a>
         <table class='table'>
             <thead>
                 <tr>
                     <th>Ingredient</th>
-                    <th>Amount in Pantry</th>
-                    <th>Quantity to Add</th>
-                    <th>Measurement</th>
-                    <th>Add to Pantry</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
             <c:forEach items="${ingredients}" var="ingredient">
                 <tr>
                     <td><a href="${ingredient.id}">${ingredient.name}</a></td>
-                    <td>${pantryMap[ingredient.id].first} ${pantryMap[ingredient.id].second.name}</td>
-                    <td><input type="number" data-ingredient-id="${ingredient.id}" name="quantity[${ingredient.id}]" min="1" ></i></td>
-                    <td>
-                    <c:forEach items="${measurements}" var="measurement">
-                        <label class='form-label'>${measurement.name}</label>
-                        <input type="radio" name="measurement[${ingredient.id}]" value="${measurement.id}" placeholder="Serving Size" />
-                    </c:forEach>
-                    </td>
-                    <td><a href="#"><button onclick="addToPantry(${ingredient.id})"><i class="fas fa-plus-square"></i></button></a></td>
+                    <td><a href="edit/${ingredient.id}"><button ><i class="fas fa-edit text-primary"></i></button></a></td>
+                     <td><a href="delete/${ingredient.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
                 </tr>
             </c:forEach>
                 <%--<tr>
@@ -44,7 +35,4 @@
             </tbody>
         </table>
   </div>
-  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="/scripts/addIngredientsToPantry.js"></script>
 <%@include file="../inc/foot.jsp" %>

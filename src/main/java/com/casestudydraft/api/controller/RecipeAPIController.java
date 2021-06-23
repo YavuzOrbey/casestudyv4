@@ -15,6 +15,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 @RestController
+@RequestMapping("api")
+@CrossOrigin
 public class RecipeAPIController {
     @Autowired
     IngredientService ingredientService;

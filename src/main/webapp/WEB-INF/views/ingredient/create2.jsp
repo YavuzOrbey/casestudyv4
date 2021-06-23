@@ -62,6 +62,7 @@
 .show {display:block;}
 </style>
 <%@include file="../inc/nav.jsp" %>
+<%@include file="../inc/messages.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%-- I'm going to lost a lot of the functionality of the form: stuff--%>
@@ -127,7 +128,10 @@
             headers: {'Content-Type': 'application/json', }
             }).then(response=>{
             //try to send person back to ingredient index after this
-                    console.log("got response back"); });
+            let messages = document.getElementById("messages");
+            messages.innerHTML = "SUCCESS";
+            messages.classList.add("alert", "alert-success");
+                     });
             });
         </script>
 <%@include file="../inc/foot.jsp" %>

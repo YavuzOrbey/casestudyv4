@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers( "/register", "/home", "/images/**", "/styles/**" , "/scripts/**", "/api/**", "/").permitAll()
-                .antMatchers("/measurement/**", "/nutrient/**", "/ingredient", "/ingredient/**", "/user/**").hasAuthority("admin")
+                .antMatchers("/measurement/**", "/nutrient/**", "/user/**").hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().accessDeniedPage("/accessDenied.jsp")

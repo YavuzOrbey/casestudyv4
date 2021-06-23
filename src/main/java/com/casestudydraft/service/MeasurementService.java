@@ -14,10 +14,13 @@ import java.sql.Timestamp;
 import java.util.List;
 @Service
 public class MeasurementService {
-
     @Autowired
     MeasurementRepository measurementRepository;
+    //autowire the constructor for testing purposes
 
+    /*public MeasurementService(MeasurementRepository measurementRepository){
+        this.measurementRepository = measurementRepository;
+    }*/
     public void save(Measurement measurement){
         measurementRepository.save(measurement);
     }

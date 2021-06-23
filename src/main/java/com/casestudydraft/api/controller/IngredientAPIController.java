@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("api")
+@CrossOrigin
 public class IngredientAPIController {
     @Autowired
     IngredientService ingredientService;

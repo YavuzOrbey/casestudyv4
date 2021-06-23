@@ -1,25 +1,23 @@
 package com.casestudydraft.webcontroller;
 
-import com.casestudydraft.model.Ingredient;
-import com.casestudydraft.model.IngredientNutrient;
-import com.casestudydraft.model.Measurement;
-import com.casestudydraft.model.Nutrient;
-import com.casestudydraft.service.IngredientNutrientService;
-import com.casestudydraft.service.IngredientService;
-import com.casestudydraft.service.MeasurementService;
-import com.casestudydraft.service.NutrientService;
+import com.casestudydraft.model.*;
+import com.casestudydraft.service.*;
 import com.casestudydraft.tools.FormHelper;
+import com.casestudydraft.tools.KeyValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +29,13 @@ public class IngredientController {
     @Autowired MeasurementService measurementService;
     @Autowired IngredientService ingredientService;
     @Autowired IngredientNutrientService ingredientNutrientService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    PantryService pantryService;
+
+    @Autowired
+    RoleService roleService;
     @ModelAttribute("ingredient")
     public Ingredient setUpIngredient(){
         Ingredient ingredient = new Ingredient();
@@ -65,10 +70,21 @@ public class IngredientController {
     public String redirectToMain(){
         return "redirect:ingredient/";
     }
+
     @RequestMapping(value="/", method= RequestMethod.GET)
-    public ModelAndView viewAllIngredients(HttpServletRequest request,  @ModelAttribute("ingredients") ArrayList<Ingredient> ingredients) {
-        ModelAndView mav = null;
-        mav = new ModelAndView("ingredient/index");
+    public String viewAllIngredients(HttpServletRequest request, @ModelAttribute("ingredients") ArrayList<Ingredient> ingredients, Authentication authentication, Model model) {
+        String mav = null;
+        if(roleService.hasAuthority(authentication, "admin").get()){
+            mav =  "ingredient/adminIndex";
+            //model.addAttribute(, )
+        }
+        else{
+            User user =userService.findByUsername(authentication.getName());
+            Map<Long, KeyValuePair<Integer, Measurement>> pantryMap = pantryService.getPantry(user.getPantry());
+            model.addAttribute("pantryMap", pantryMap);
+            System.out.println(pantryMap);
+            mav = "ingredient/index";
+        }
         return mav;
     }
 

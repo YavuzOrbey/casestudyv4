@@ -69,4 +69,33 @@ public class PantryIngredient extends BaseModel{
     public void setMeasurement(Measurement measurement) {
         this.measurement = measurement;
     }
+
+    @Override
+    public String toString() {
+        return "PantryIngredient{" +
+                "id=" + id +
+                ", pantry=" + pantry +
+                ", ingredient=" + ingredient +
+                ", quantity=" + quantity +
+                ", measurement=" + measurement +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PantryIngredient that = (PantryIngredient) o;
+
+        if (!pantry.equals(that.pantry)) return false;
+        return ingredient.equals(that.ingredient);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pantry.hashCode();
+        result = 31 * result + ingredient.hashCode();
+        return result;
+    }
 }

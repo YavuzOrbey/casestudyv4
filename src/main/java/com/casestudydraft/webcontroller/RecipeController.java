@@ -142,8 +142,10 @@ public class RecipeController {
         System.out.println("------------------------------");
         System.out.println(measurement.getNutrients());*/
         mav = new ModelAndView("recipe/view");
-        Map<String, AtomicInteger> recipeInfo = new HashMap<>();
+        /*Map<String, AtomicInteger> recipeInfo = new HashMap<>();
         //I didn't realize that data structure I made a while ago would finally come in handy!
+
+        //EDIT: 6/22/21 Midnight maybe move all of this into the recipeservice class and call it calculateNutrition
         Map<String, KeyValuePair<AtomicInteger, String>> recipeInfo2 = new HashMap<>();
         // calculate recipe nutrients based on individual ingredient nutrients
         //have to be really careful here this can get confusing real fast
@@ -173,19 +175,23 @@ public class RecipeController {
 
              AtomicInteger sum = new AtomicInteger();
              recipeIngredient.getIngredient().getIngredientNutrients().forEach(ingredientNutrient -> { //get the current ingredient and get nutrients inside of it
-                 /*System.out.println(ingredientNutrient.getIngredient().getName() + " has " + ingredientNutrient.getAmount() + " " +
-                                 ingredientNutrient.getNutrient().getMeasurement().getName() + " of " + ingredientNutrient.getNutrient().getName());*/
+                 *//*System.out.println(ingredientNutrient.getIngredient().getName() + " has " + ingredientNutrient.getAmount() + " " +
+                                 ingredientNutrient.getNutrient().getMeasurement().getName() + " of " + ingredientNutrient.getNutrient().getName());*//*
                  sum.addAndGet((int) (ingredientNutrient.getAmount()* ratio));
                  recipeInfo.put(ingredientNutrient.getNutrient().getName(), sum);
                  recipeInfo2.put(ingredientNutrient.getNutrient().getName(),
                          new KeyValuePair<AtomicInteger, String>(sum,ingredientNutrient.getNutrient().getMeasurement().getName()));
              });
-         });
-        System.out.println(recipeInfo2);
+         });*/
+
+        Map<String, KeyValuePair<AtomicInteger, String>> nutrition = recipeService.calculateNutrition(recipe);
+        System.out.println(nutrition);
+        System.out.println(recipe);
+        mav.addObject("nutrition", nutrition);
         mav.addObject("recipe", recipe);
-        mav.addObject("recipeInfo", recipeInfo2);
+/*        mav.addObject("recipeInfo", recipeInfo2);
         mav.addObject("servingSize", servingSize);
-        mav.addObject("calories", calories);
+        mav.addObject("calories", calories);*/
         return mav;
     }
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
