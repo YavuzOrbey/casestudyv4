@@ -2,8 +2,8 @@ package com.casestudydraft.service;
 
 import com.casestudydraft.model.*;
 import com.casestudydraft.repository.PantryRepository;
+import com.casestudydraft.tools.IngredientException;
 import com.casestudydraft.tools.KeyValuePair;
-import com.casestudydraft.tools.NegativeIngredientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +30,17 @@ public class PantryService {
         pantryRepository.save(pantry);
     }
 
-    public void removeIngredient(PantryIngredient pantryIngredient) throws NegativeIngredientException {
+    public void removeIngredient(PantryIngredient pantryIngredient) throws IngredientException {
         Pantry pantry = pantryIngredient.getPantry();
         List<PantryIngredient> pantryIngredientList = pantry.getPantryIngredients();
         if(pantryIngredientList.contains(pantryIngredient)){
             int index = pantryIngredientList.indexOf(pantryIngredient);
             PantryIngredient ingredientAlreadyIn =  pantryIngredientList.get(index);
             if(ingredientAlreadyIn.getQuantity() - pantryIngredient.getQuantity() < 0 )
-                throw new NegativeIngredientException("Cannot have negative amount of ingredients"); // LOOK I used a custom exception!
+                throw new IngredientException("Cannot have negative amount of ingredients"); // LOOK I used a custom exception!
             ingredientAlreadyIn.setQuantity(ingredientAlreadyIn.getQuantity() - pantryIngredient.getQuantity());
         }else{
-            throw new NegativeIngredientException("Cannot remove what is not in your pantry");
+            throw new IngredientException("Cannot remove what is not in your pantry");
         }
         pantryRepository.save(pantry);
     }
@@ -56,7 +56,7 @@ public class PantryService {
 
     public boolean hasEnough(Pantry pantry, Ingredient ingredient, int amount){
         for(PantryIngredient pantryIngredient: pantry.getPantryIngredients()){
-            if(pantryIngredient.getIngredient().equals(ingredient) && pantryIngredient.getQuantity() > amount){
+            if(pantryIngredient.getIngredient().equals(ingredient) && pantryIngredient.getQuantity() >= amount){
                 return true;
             }
         }

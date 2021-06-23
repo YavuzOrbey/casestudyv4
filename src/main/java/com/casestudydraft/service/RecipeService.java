@@ -1,9 +1,6 @@
 package com.casestudydraft.service;
 
-import com.casestudydraft.model.Measurement;
-import com.casestudydraft.model.Nutrient;
-import com.casestudydraft.model.Recipe;
-import com.casestudydraft.model.User;
+import com.casestudydraft.model.*;
 import com.casestudydraft.repository.RecipeRepository;
 import com.casestudydraft.tools.KeyValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,7 @@ public class RecipeService {
     public void delete(Recipe recipe){
         recipeRepository.delete(recipe);
     }
-
+    public List<Recipe> findByNameIgnoreCaseContaining(String name) { return recipeRepository.findByNameIgnoreCaseContaining(name);}
     public List<Recipe> findByPublishedAndUser(boolean published, long userId){
         return recipeRepository.findByPublishedAndUsersId(published, userId);
     }

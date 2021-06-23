@@ -9,5 +9,10 @@
     }
     let json = JSON.stringify(ingredientToAdd);
     axios.post("/api/addIngredients", json,  { headers: {'Content-Type': 'application/json', }})
-    .then(response=>{ console.log(response.data)});
+    .then(response=>{ console.log(response.data);
+              let messages = document.getElementById("messages");
+              messages.innerHTML = "Added!"
+              messages.classList.add("alert", "alert-success")
+              window.location.reload();
+    });
     }

@@ -3,7 +3,7 @@
 <style>
 /* Dropdown Button */
 .dropbtn {
-  background-color: #04AA6D;
+  background-color: #60043a;
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -13,7 +13,8 @@
 
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
-  background-color: #3e8e41;
+  background-color: #7f43e7;
+    color: white;
 }
 
 /* The search field */
@@ -85,6 +86,14 @@ margin-top: 10px;
 .error{
 color: red;
 }
+.add-button{
+    text-align:center;
+    cursor: pointer;
+      background-color: #7f43e7;
+}
+.add-button:hover{
+    background-color: black;
+}
 </style>
 <%@include file="../inc/nav.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -103,7 +112,7 @@ color: red;
         <input id="cuisine" class='form-control' name="cuisine" type="text" placeholder="Cuisine" />
     </div>
 
-              <a onclick="showElement('showAddIngredient')" class="dropbtn d-block animate__animated animate__pulse animate__infinite">Add Ingredient</a>
+              <a onclick="showElement('showAddIngredient')" class="dropbtn d-block">Add Ingredient</a>
 
     <h4>Ingredients</h4>
     <span id="ingredient-error" class='error'></span>
@@ -117,14 +126,14 @@ color: red;
     </ul>
      <h4>Steps</h4>
      <span id="step-error" class='error'></span>
-    <a onclick="showElement('showAddStep')"  class="dropbtn d-block animate__animated animate__pulse animate__infinite">Add New Step</a>
+    <a onclick="showElement('showAddStep')"  class="dropbtn d-block">Add New Step</a>
         <div id="showAddStep" class="dropdown-content row">
             <div class="form-floating" >
               <textarea class="form-control" placeholder="Step Instruction" id="stepInput" ></textarea>
               <label for="floatingTextarea">Step Instruction</label>
             </div>
             <div >
-                <a onclick="createNewStep()" class="dropbtn"><i class="fas fa-plus-square"></i></a>
+                <a onclick="createNewStep()" class="add-button animate__animated animate__pulse animate__infinite	infinite">ADD</i></a>
             </div>
         </div>
     <ol id="steps"></ol>
@@ -147,43 +156,13 @@ color: red;
 
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <script>
-
-<%--
-<div class='new-ingredient' >
-        <div class="mb-3">
-            <label class='form-label'>Name</label>
-            <input type="text" name="ingredient">
-            <label  class='form-label'>Quanity</label>
-            <input type="number" name="quantity">
-            <div class='form-check form-check-inline mb-3'>
-                <c:forEach items="${measurements}" var="measurement">
-                <label>${meas}
-                <input type="radio" name="measurement" value="${measurement}"
-
-                 </c:forEach>
-            </div>
-        </div>
-    </div>--%>
-
 let measurements = [];
 // at the startup of the jsp page parse the measurements recieved from the controller into a javascript object
 <c:forEach items="${measurements}" var="measurement">
     measurements.push({id: ${measurement.id}, name: '${measurement.name}' });
 </c:forEach>
 console.log(measurements);
-    <%--
-    for(let i=0; i<nutrientInputs.length; i++){
-        ingredient.nutrients.push({id: parseInt(nutrientInputs[i].dataset.nutrientId,10), amount: parseInt(nutrientInputs[i].value, 10)});
-    }
-    console.log(ingredient);
-    //ensure validation at this point
-    let json = JSON.stringify(ingredient);
-    axios.post("/api/ingredient", json,  {
-    headers: {'Content-Type': 'application/json', }
-    }).then(response=>{
-            console.log("got response back"); });--%>
 </script>
 <script src="/scripts/ingredientInput.js"></script>
 

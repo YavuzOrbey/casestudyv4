@@ -26,7 +26,10 @@ public class RecipeAPIController {
 
     @Autowired
     RecipeService recipeService;
-
+    @RequestMapping(value="/recipe")
+    public List<Recipe> findMatchingRecipes(@RequestParam String q) {
+        return recipeService.findByNameIgnoreCaseContaining(q);
+    }
     @RequestMapping(value="/recipe", method= RequestMethod.POST)
     public  @ResponseBody
     Map<String, String> storeRecipe(@RequestBody String string) throws JsonProcessingException { // Recipe recipe

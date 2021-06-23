@@ -6,6 +6,7 @@ import com.casestudydraft.model.Measurement;
 import com.casestudydraft.service.IngredientService;
 import com.casestudydraft.service.MeasurementService;
 import com.casestudydraft.service.NutrientService;
+import com.casestudydraft.tools.IngredientException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,13 +41,16 @@ public class IngredientAPIController {
     }
     @RequestMapping(value="/ingredient", method= RequestMethod.POST)
     public  @ResponseBody
-    Ingredient storeIngredient(@RequestBody String string) throws JsonProcessingException { // Ingredient ingredient
-        System.out.println(string);
+    String storeIngredient(@RequestBody String string) throws JsonProcessingException, IngredientException { // Ingredient ingredient
 
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonObject = mapper.readTree(string);
         Ingredient ingredient = mapper.readValue(string, Ingredient.class); // this will try to parse what it can into a Ingredient pojo minus the stuff I explitcitly told it not to
-        System.out.println(jsonObject);
+
+        //if there is already ingredient with the same name stop right here
+        if(ingredientService.findByName(ingredient.getName())!=null)
+            throw new IngredientException("Duplicate Value!");
+
         JsonNode measurementJson = jsonObject.path("measurement");
         Measurement measurement = measurementService.get(Long.parseLong(measurementJson.toString()));
         System.out.println(measurement);
@@ -69,7 +73,7 @@ public class IngredientAPIController {
         });
         ingredient.setIngredientNutrients(ingredientNutrients);
         ingredientService.save(ingredient);
-        return new Ingredient();
+        return "Completed";
     }
 
 

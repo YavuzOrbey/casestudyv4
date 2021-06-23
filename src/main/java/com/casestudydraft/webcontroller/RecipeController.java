@@ -67,11 +67,11 @@ public class RecipeController {
         List<Recipe> recipes = recipeService.findAll();
         return (ArrayList<Recipe>) recipes;
     }
-    @ModelAttribute("myrecipes")
+/*    @ModelAttribute("myrecipes")
     public ArrayList<Recipe> myRecipes(){
         List<Recipe> recipes = recipeService.findByPublishedAndUser(false, userService.findByUsername("yavuz1").getId());
         return (ArrayList<Recipe>) recipes;
-    }
+    }*/
 
     @RequestMapping(value="", method= RequestMethod.GET)
     public String redirectToMain(){
@@ -85,7 +85,7 @@ public class RecipeController {
     }
 
     @RequestMapping("/myrecipes")
-    public ModelAndView viewMyRecipes(HttpServletRequest request, @ModelAttribute("myrecipes") ArrayList<Recipe> recipes) {
+    public ModelAndView viewMyRecipes(HttpServletRequest request, @ModelAttribute("recipes") ArrayList<Recipe> recipes) {
         ModelAndView mav = null;
         mav = new ModelAndView("recipe/index");
         return mav;
@@ -101,7 +101,8 @@ public class RecipeController {
         return mav;
     }
 
-    @RequestMapping(value="/create", method= RequestMethod.POST)
+    //not used anymore..creating Recipe via POST API Call
+    /*@RequestMapping(value="/create", method= RequestMethod.POST)
     public ModelAndView storeRecipe(HttpServletRequest request,
                                         @ModelAttribute("recipe") Recipe recipe,
                                         BindingResult result) {
@@ -120,27 +121,12 @@ public class RecipeController {
         });
         recipeService.save(recipe);
         mav = new ModelAndView("recipe/index");
-//        ingredient.setMeasurement(measurementService.get(ingredient.getMeasurement().getId()));
-//        ingredient.getIngredientNutrients().forEach(ingredientNutrient -> {
-//            ingredientNutrient.setIngredient(ingredient);
-//            ingredientNutrient.setNutrient(nutrientService.get(ingredientNutrient.getNutrient().getId()));
-//        });
-//        ingredientService.save(ingredient);
-//
-//        mav = new ModelAndView("redirect:");
         return mav;
-    }
+    }*/
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public ModelAndView viewRecipe(HttpServletRequest request, @PathVariable Integer id) {
         ModelAndView mav = null;
         Recipe recipe = recipeService.get(id);
-     /*   Measurement measurement = measurementService.get(1L);
-        System.out.println(measurement);
-        System.out.println(measurement.getRecipeIngredients());
-        System.out.println("------------------------------");
-        System.out.println(measurement.getIngredients());
-        System.out.println("------------------------------");
-        System.out.println(measurement.getNutrients());*/
         mav = new ModelAndView("recipe/view");
         /*Map<String, AtomicInteger> recipeInfo = new HashMap<>();
         //I didn't realize that data structure I made a while ago would finally come in handy!
@@ -189,9 +175,6 @@ public class RecipeController {
         System.out.println(recipe);
         mav.addObject("nutrition", nutrition);
         mav.addObject("recipe", recipe);
-/*        mav.addObject("recipeInfo", recipeInfo2);
-        mav.addObject("servingSize", servingSize);
-        mav.addObject("calories", calories);*/
         return mav;
     }
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)

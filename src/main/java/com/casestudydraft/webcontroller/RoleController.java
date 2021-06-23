@@ -35,8 +35,9 @@ public class RoleController {
     }
 
     /*One Time give all users admin privilege */
-    @RequestMapping(value="/givePrivileges", method= RequestMethod.GET)
-    public void givePrivileges(@ModelAttribute("role") Role role){
-        //roleService
+    @RequestMapping(value="/createadmin", method= RequestMethod.GET)
+    public void createAdmin(){
+        roleService.createAdmin();
+        roleService.setAdmin();
     }
 }

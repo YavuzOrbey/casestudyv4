@@ -2,7 +2,7 @@ package com.casestudydraft.api.controller;
 
 import com.casestudydraft.model.*;
 import com.casestudydraft.service.*;
-import com.casestudydraft.tools.NegativeIngredientException;
+import com.casestudydraft.tools.IngredientException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -52,17 +52,17 @@ public class PantryAPIController {
         return "DONE";
     }
     @RequestMapping(value="/checkpantry")
-    public void makeRecipe(@RequestParam Integer recipeId, Principal principal) throws NegativeIngredientException {
+    public void makeRecipe(@RequestParam Integer recipeId, Principal principal) throws IngredientException {
         User user = userService.findByUsername(principal.getName());
         //how many ingredients does recipe require?
         Recipe recipe = recipeService.get(recipeId);
         boolean readyToMake = true;
-
+        System.out.println(user);
         for (RecipeIngredient recipeIngredient: recipe.getRecipeIngredients()) {
             if(!pantryService.hasEnough(user.getPantry(),recipeIngredient.getIngredient(),recipeIngredient.getQuantity())){
                 readyToMake = false;
                 System.out.println("Not Enough ingredients!");
-                break;
+                throw new IngredientException("Not Enough ingredients!");
             }
         }
 

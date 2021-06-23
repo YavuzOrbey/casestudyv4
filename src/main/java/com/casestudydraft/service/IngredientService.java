@@ -34,16 +34,5 @@ public class IngredientService {
         ingredientRepository.delete(ingredient);
     }
 
-    public List<Ingredient> getAllIngredients(Integer pageNo, Integer pageSize, String sortBy)
-    {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-        Page<Ingredient> pagedResult = ingredientRepository.findAll(paging);
-
-        if(pagedResult.hasContent()) {
-            return pagedResult.getContent();
-        } else {
-            return new ArrayList<Ingredient>();
-        }
-    }
 }

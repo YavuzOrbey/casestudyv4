@@ -1,7 +1,6 @@
 <% String title = "Create Ingredient"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <form method="POST" class='container'>
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
        <div class='form-check form-check-inline mb-3'>

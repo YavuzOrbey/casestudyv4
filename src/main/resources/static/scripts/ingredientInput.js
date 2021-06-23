@@ -34,7 +34,7 @@ form.addEventListener("submit", function(event){
 
     let json = JSON.stringify(recipe);
     console.log(json)
-       /* axios.post("/api/recipe", json,  { headers: {'Content-Type': 'application/json', }})
+       axios.post("/api/recipe", json,  { headers: {'Content-Type': 'application/json', }})
         .then(response=>{ console.log(response.data);
          //response.data are the validation errors from the server. Try to display them underneath the respective fields
             if(response.data["name"]) document.getElementById("name-error").innerText = response.data["name"];
@@ -46,7 +46,7 @@ form.addEventListener("submit", function(event){
             if(response.data["recipeSteps"]) document.getElementById("step-error").innerText = response.data["recipeSteps"];
             else document.getElementById("step-error").innerText = "";
 
-         }).catch(error=>console.log(error));*/
+         }).catch(error=>console.log(error));
 })
 
 

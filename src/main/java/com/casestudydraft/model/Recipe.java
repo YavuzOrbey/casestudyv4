@@ -1,6 +1,8 @@
 package com.casestudydraft.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -33,15 +35,18 @@ public class Recipe extends BaseModel{
             CascadeType.ALL
     }) //use the mapped by to avoid making a join table with one to many
     @Size(min=1, message = "Recipe must have at least one step")
+    @JsonManagedReference
     List<Step> recipeSteps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = {
             CascadeType.ALL
     })
     @Size(min=1, message = "Recipe must have at least one ingredient")
+    @JsonManagedReference
     private List<RecipeIngredient> recipeIngredients;
 
     @ManyToMany(mappedBy = "recipes")
+    @JsonBackReference("usersInRecipe")
     Set<User> users;
 
     @NotNull

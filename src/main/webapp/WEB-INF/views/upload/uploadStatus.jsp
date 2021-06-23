@@ -1,11 +1,13 @@
 <% String title = "Upload File"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
-<%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
+<div class='container'>
+<div class='col'>
 
-
-<h1>Spring Boot - Upload Status</h1>
+<h1>Upload Status</h1>
 <p>${message}</p>
+</div>
+</div>
 <%@include file="../inc/foot.jsp" %>
 

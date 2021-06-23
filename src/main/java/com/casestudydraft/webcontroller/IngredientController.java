@@ -204,16 +204,6 @@ public class IngredientController {
         return mav;
     }
 
-    @GetMapping("/ingredientsSorted")
-    public ResponseEntity<List<Ingredient>> getAllIngredients(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy)
-    {
-        List<Ingredient> list = ingredientService.getAllIngredients(pageNo, pageSize, sortBy);
-
-        return new ResponseEntity<List<Ingredient>>(list, new HttpHeaders(), HttpStatus.OK);
-    }
     @RequestMapping(value="/edit/{id}", method= RequestMethod.GET)
     public ModelAndView editIngredient(HttpServletRequest request, @PathVariable Long id,
                                        @ModelAttribute("ingredient") Ingredient ingredient,

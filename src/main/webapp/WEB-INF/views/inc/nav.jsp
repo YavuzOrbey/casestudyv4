@@ -22,14 +22,12 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-right">
             <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
-            <li><a class="dropdown-item" href="#">My Recipes</a></li>
+            <li><a class="dropdown-item" href="/ingredient">My Pantry</a></li>
             <li>
                 <c:if test="${pageContext.request.userPrincipal.name != null}">
                     <form id="logoutForm" method="POST" action="${contextPath}/logout">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </form>
-
-                    <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
                 </c:if>
             <a class="dropdown-item" onclick="document.forms['logoutForm'].submit()">Logout</a></li>
           </ul>

@@ -43,4 +43,14 @@ public class RoleService {
                 });
         return hasAuthority;
     }
+
+    public void createAdmin(){
+        System.out.println("HERE");
+        roleRepository.createAdmin();
+    }
+
+    public void setAdmin(){
+        System.out.println("HERE");
+        roleRepository.setAdmin();
+    }
 }

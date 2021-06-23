@@ -1,5 +1,6 @@
 package com.casestudydraft.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,10 +15,12 @@ public class RecipeIngredient extends BaseModel{
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "recipe_id")
+    @JsonBackReference("recipeInRecipeIngredient")
     private Recipe recipe;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ingredient_id")
+    @JsonBackReference("ingredientInRecipeIngredient")
     private Ingredient ingredient;
 
     @Min(0)

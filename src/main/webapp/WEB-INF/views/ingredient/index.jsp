@@ -1,8 +1,8 @@
 <% String title = "Ingredients"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+  <%@include file="../inc/messages.jsp" %>
   <div class="container  ">
         <a href="create"><button id="addEntityBtn">Add New Ingredient</button></a>
         <table class='table'>
