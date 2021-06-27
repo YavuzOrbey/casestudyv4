@@ -3,8 +3,6 @@ package com.casestudydraft.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.util.Map;
-
 @Entity
 @Table(name="ingredient_nutrient")
 public class IngredientNutrient extends BaseModel {

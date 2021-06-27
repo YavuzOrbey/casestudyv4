@@ -33,14 +33,16 @@ public class PantryAPIController {
     @RequestMapping(value="/addIngredients", method=RequestMethod.POST)
     public String addIngredientsToPantry(@RequestBody String string, Principal principal) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
         JsonNode jsonObject = mapper.readTree(string);
-        System.out.println(jsonObject);
+        //find currently logged in user
         User user = userService.findByUsername(principal.getName());
         Ingredient ingredient = ingredientService.get(jsonObject.path("id").asLong());
         Pantry pantry = user.getPantry();
+
         PantryIngredient pantryIngredient = new PantryIngredient();
         pantryIngredient.setIngredient(ingredient);
-        pantryIngredient.setMeasurement(measurementService.get(1L));
+        pantryIngredient.setMeasurement(measurementService.get(jsonObject.path("measurement").asLong()));
         pantryIngredient.setPantry(pantry);
         pantryIngredient.setQuantity(jsonObject.path("quantity").asInt());
         System.out.println(pantryIngredient);

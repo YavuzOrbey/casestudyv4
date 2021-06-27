@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -75,15 +76,19 @@ public class AuthController {
     public String welcome() {
         return "redirect:home";
     }
+
     @GetMapping("/home")
-    public ModelAndView home() {
+    public ModelAndView home(HttpSession httpSession) {
         ModelAndView mav = new ModelAndView("pages/landing");
+        httpSession.setAttribute("zone_numer", 10);
         return mav;
     }
 
 
     @RequestMapping(value="/dashboard", method= RequestMethod.GET)
-    public ModelAndView showDashboard(HttpServletRequest request) {
+    public ModelAndView showDashboard(HttpServletRequest request, HttpSession httpSession) {
+        System.out.println(httpSession.getAttribute("something"));
+
         ModelAndView mav = null;
 
         //get current month
@@ -111,7 +116,6 @@ public class AuthController {
         for(int i=0; i<  DayOfWeek.values().length; i++){
             daysOfWeek[i] = DayOfWeek.values()[i].getDisplayName(TextStyle.FULL, Locale.US);
         }
-
         mav.addObject("month_name", firstDayOfMonth.getMonth().name());
         mav.addObject("daysOfWeek", daysOfWeek);
         mav.addObject("numWeeks", numWeeks);

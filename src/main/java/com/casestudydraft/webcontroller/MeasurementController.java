@@ -28,6 +28,7 @@ public class MeasurementController {
     public String redirectToMain(){
         return "redirect:measurement/";
     }
+
     @RequestMapping(value="/", method= RequestMethod.GET)
     public ModelAndView viewAllMeasurements(HttpServletRequest request) {
         ModelAndView mav = null;
@@ -54,6 +55,7 @@ public class MeasurementController {
                 measurementService.save(measurement);
                 mav = new ModelAndView("measurement/create");
                 mav.addObject("message", "Successfully added!");
+                mav.addObject("type", "success");
             }else {
                 mav = new ModelAndView("misc/duplicate");
             }

@@ -4,17 +4,14 @@ package com.casestudydraft.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 @Table(name="ingredient")
@@ -41,14 +38,12 @@ public class Ingredient extends BaseModel{
 
     @ManyToOne
     @JoinColumn(name="fk_servingSizeMeasurement")
-    //@JsonManagedReference("measurementInIngredient")
     @JsonIgnore
     private Measurement measurement;
 
 
     @ManyToOne
     @JoinColumn(name="fk_categoryId")
-    //@JsonManagedReference("categoryInIngredient")
     private Category category;
 
     @OneToMany(mappedBy = "ingredient", cascade = {
@@ -57,6 +52,7 @@ public class Ingredient extends BaseModel{
     @JsonBackReference("ingredientNutrients")
     private List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
 
+    //if the ingredient gets deleted make sure to cascade that to the recipe ingredients
     @OneToMany(mappedBy = "ingredient", cascade = {
             CascadeType.ALL
     })

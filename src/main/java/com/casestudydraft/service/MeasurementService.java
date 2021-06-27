@@ -6,21 +6,16 @@ import com.casestudydraft.model.User;
 import com.casestudydraft.repository.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import java.sql.Timestamp;
 import java.util.List;
 @Service
+@Transactional
 public class MeasurementService {
     @Autowired
     MeasurementRepository measurementRepository;
     //autowire the constructor for testing purposes
 
-    /*public MeasurementService(MeasurementRepository measurementRepository){
-        this.measurementRepository = measurementRepository;
-    }*/
     public void save(Measurement measurement){
         measurementRepository.save(measurement);
     }

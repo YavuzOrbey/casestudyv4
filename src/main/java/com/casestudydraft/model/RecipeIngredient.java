@@ -13,12 +13,17 @@ public class RecipeIngredient extends BaseModel{
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+
+    /* If the ingredient gets deleted the recipe ingredient should get deleted and if the recipe ingredient gets deleted
+    then the recipe itself needs to get deleted. No point in having a recipe without that specific ingredient
+     */
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id")
     @JsonBackReference("recipeInRecipeIngredient")
     private Recipe recipe;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    /* When the recipe ingredient changes however make no changes in the ingredient */
+    @ManyToOne
     @JoinColumn(name = "ingredient_id")
     @JsonBackReference("ingredientInRecipeIngredient")
     private Ingredient ingredient;

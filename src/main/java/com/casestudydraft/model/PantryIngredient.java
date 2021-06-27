@@ -17,6 +17,7 @@ public class PantryIngredient extends BaseModel{
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ingredient_id")
+
     private Ingredient ingredient;
 
     @Min(0)

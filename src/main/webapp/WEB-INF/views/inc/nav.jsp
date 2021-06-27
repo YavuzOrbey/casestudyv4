@@ -1,4 +1,5 @@
-
+</head>
+<body>
   <nav class='navbar navbar-expand-lg bg-dark d-flex justify-content-end'>
     <div class='d-flex flex-row justify-content-evenly'>
       <form class="d-flex h-100">

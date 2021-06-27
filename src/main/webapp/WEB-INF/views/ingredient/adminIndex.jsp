@@ -18,21 +18,16 @@
                 <tr>
                     <td><a href="${ingredient.id}">${ingredient.name}</a></td>
                     <td><a href="edit/${ingredient.id}"><button ><i class="fas fa-edit text-primary"></i></button></a></td>
-                     <td><a href="delete/${ingredient.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
+                     <td><a onlick="confirmDelete()" href="delete/${ingredient.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
                 </tr>
             </c:forEach>
-                <%--<tr>
-                    <td><a href="showRecipe.html">Measurement 1</td>
-                    <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
-                    <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
-                </tr>
-                <tr>
-                    <td>Nutrient 2</td>
-                    <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
-                	<td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
-                </tr>--%>
-
             </tbody>
         </table>
   </div>
+  <script>
+  function confirmDelete(){
+    event.preventDefault();
+  }
+
+  </script>
 <%@include file="../inc/foot.jsp" %>

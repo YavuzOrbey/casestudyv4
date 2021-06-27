@@ -10,14 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 public class FormHelper {
-//    private Map<Integer, Integer> nutrientMap = new HashMap<>();
-//    public Map<Integer, Integer> getNutrientMap(){
-//        return nutrientMap;
-//    }
-//
-//    public void setNutrientMap(Map<Integer, Integer> nutrientMap) {
-//        this.nutrientMap = nutrientMap;
-//    }
     @Valid
     private Ingredient ingredient;
 
@@ -48,24 +40,6 @@ public class FormHelper {
     public void setNutrientAmounts(List<KeyValuePair<String, String>> nutrientAmounts) {
         this.nutrientAmounts = nutrientAmounts;
     }
-    /*private Map<String,  KeyValuePair<Nutrient, Integer>> nutrientMap = new HashMap<>();
-
-    public Map<String,  KeyValuePair<Nutrient, Integer>> getNutrientMap() {
-        return nutrientMap;
-    }
-
-    public void setNutrientMap(Map<String,  KeyValuePair<Nutrient, Integer>> nutrientMap) {
-        this.nutrientMap = nutrientMap;
-    }
-
-    @Override
-    public String toString() {
-        return "FormHelper{" +
-                "ingredient=" + ingredient +
-                ", nutrientMap=" + nutrientMap +
-                '}';
-    }*/
-
     @Override
     public String toString() {
         return "FormHelper{\n" +

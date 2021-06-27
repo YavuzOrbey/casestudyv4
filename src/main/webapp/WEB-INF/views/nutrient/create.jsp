@@ -5,8 +5,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<div class="container ">
-    <div  class="p-5 ">
+<div class="container d-flex justify-content-center">
+    <div  class="p-5 shadow">
       <form:form method="POST" modelAttribute="nutrient">
         <h3>Create New Nutrient</h3>
         <div class="mb-3">

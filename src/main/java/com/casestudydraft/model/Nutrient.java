@@ -1,9 +1,8 @@
 package com.casestudydraft.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Nutrient extends BaseModel{
     @Column(name="id")
     private Long id;
 
-    @Column(name="name", nullable=false)
+    @Column(name="name", nullable=false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "nutrient", cascade = {
@@ -29,7 +28,6 @@ public class Nutrient extends BaseModel{
 
     @ManyToOne
     @JoinColumn(nullable=false)
-    //@JsonManagedReference("measurement")
     private Measurement measurement;
 
 

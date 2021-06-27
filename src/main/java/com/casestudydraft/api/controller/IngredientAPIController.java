@@ -17,10 +17,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*Because my app is using a lot of javascript and making AJAX requests I needed to make my own API Endpoints to retrieve
+my data */
+
 @RestController
 @RequestMapping("api")
 @CrossOrigin
 public class IngredientAPIController {
+
+
+    //Autowiring the services I'm going to use in this class
     @Autowired
     IngredientService ingredientService;
 
@@ -30,6 +36,7 @@ public class IngredientAPIController {
     @Autowired
     MeasurementService measurementService;
 
+    // the route localhost:8080/api/ingredients will send a json string with all of the ingredients in the database
     @RequestMapping(value="/ingredients")
     public List<Ingredient> viewAllIngredients(@ModelAttribute("ingredients") List<Ingredient> ingredients) {
         return ingredients;
@@ -41,11 +48,15 @@ public class IngredientAPIController {
     }
     @RequestMapping(value="/ingredient", method= RequestMethod.POST)
     public  @ResponseBody
-    String storeIngredient(@RequestBody String string) throws JsonProcessingException, IngredientException { // Ingredient ingredient
-
+    String storeIngredient(@RequestBody String string) throws JsonProcessingException, IngredientException {
+        System.out.println(string);
+        /*  The string that goes through this method is a JSON string in a specific format
+         *
+         *
+         */
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNode jsonObject = mapper.readTree(string);
         Ingredient ingredient = mapper.readValue(string, Ingredient.class); // this will try to parse what it can into a Ingredient pojo minus the stuff I explitcitly told it not to
+        JsonNode jsonObject = mapper.readTree(string); // this is for the other stuff that can't be parsed
 
         //if there is already ingredient with the same name stop right here
         if(ingredientService.findByName(ingredient.getName())!=null)

@@ -76,7 +76,6 @@ public class IngredientController {
         String mav = null;
         if(roleService.hasAuthority(authentication, "admin").get()){
             mav =  "ingredient/adminIndex";
-            //model.addAttribute(, )
         }
         else{
             User user =userService.findByUsername(authentication.getName());
@@ -102,7 +101,7 @@ public class IngredientController {
         }
 
         ingredient.setIngredientNutrients(ingredientNutrients);
-        mav = new ModelAndView("ingredient/create2", "ingredientNutrients", ingredientNutrients);
+        mav = new ModelAndView("ingredient/create", "ingredientNutrients", ingredientNutrients);
         return mav;
     }
 

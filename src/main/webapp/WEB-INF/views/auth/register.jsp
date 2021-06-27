@@ -10,7 +10,7 @@
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <form:input type="email" path="email"  id="email" cssClass="form-control"/>
-          <form:errors path="email" class='error' />
+                <form:errors path="email" class='error' />
         </div>
         <div class="mb-3">
                   <label for="username" class="form-label">Username</label>

@@ -1,9 +1,6 @@
 package com.casestudydraft.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -27,8 +24,8 @@ public class Measurement extends BaseModel{
     private List<RecipeIngredient> recipeIngredients;
 
     @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
-    //@JsonBackReference("ingredients")
     private List<Ingredient> ingredients;
+
     public Measurement() {
     }
 
@@ -69,13 +66,6 @@ public class Measurement extends BaseModel{
         this.name = name;
     }
 
-/*    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }*/
     //@JsonIgnore
     public List<Nutrient> getNutrients() {
         return nutrients;
@@ -85,11 +75,15 @@ public class Measurement extends BaseModel{
         this.nutrients = nutrients;
     }
 
-    @Override
-    public String toString() {
-        return "Measurement{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+    /*@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Measurement that = (Measurement) o;
+
+        if (!id.equals(that.id)) return false;
+        return name.equals(that.name);
+    }*/
+
 }

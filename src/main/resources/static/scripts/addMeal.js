@@ -29,7 +29,8 @@ function addRecipe(recipe, number){
     li.dataset.id=recipe.id +"-"+number
     li.appendChild(button)
     day.appendChild(li);
-
+    document.getElementById("day-")
+    <h6 onclick="makeRecipe() " class="btn btn-outline-primary" style="cursor: pointer; ">Make Meal!</h6>
 }
 
 function clearRecipeInput(){

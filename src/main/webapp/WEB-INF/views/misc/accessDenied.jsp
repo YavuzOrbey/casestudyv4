@@ -10,7 +10,7 @@
         <div class='col'>
         <img src="/images/access-denied.svg"
              alt="Access Denied"
-             width="600"
+             width="400"
              class='d-block m-auto'
              />
         </div>

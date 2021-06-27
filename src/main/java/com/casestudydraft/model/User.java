@@ -26,6 +26,7 @@ public class User extends BaseModel {
     @Column(name="email")
     @Email
     @NotBlank(message="Required")
+    @NotEmpty
     private String email;
 
     @Column(name="password")
@@ -54,8 +55,9 @@ public class User extends BaseModel {
     public User() {
     }
 
-    public User(String email, String password) {
+    public User(String email, String username, String password) {
         super();
+        this.username = username;
         this.email = email;
         this.password = password;
     }

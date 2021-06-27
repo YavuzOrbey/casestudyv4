@@ -35,7 +35,7 @@
 
   <div class='container'>
     <div id='video-container' class="mb-4 shadow-sm position-relative" >
-      <h1 class="fw-bold border border-dark border-2 w-50  p-5 text-center">Suspendisse</h1>
+      <h1 class="fw-bold border border-dark border-2 w-50  p-5 text-center">Name Pending</h1>
       <video playsinline autoplay muted loop poster="${pageContext.request.contextPath}/images/header-image.jpg" id="theVideo">
         <source src="/images/video.mp4" type="video/mp4">
       </video>
